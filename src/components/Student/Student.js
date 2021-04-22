@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import * as actionCreator from './actions';
 import * as loadingActionCreator from '../Loading/actions';
 import Button from 'react-bootstrap/Button';
 import { Container, Alert } from 'react-bootstrap';
@@ -10,7 +11,7 @@ class Student extends React.Component{
     constructor(props){
         super(props);
         this.state={
-           studentData:{
+            studentData:{
                 studentId:null,
                 batchId:null,
                 isTestScheduled:true,
@@ -25,14 +26,31 @@ class Student extends React.Component{
             studentId:1234,
             batchId:'1A',
             isTestScheduled:true,
-            subQList:[],
-            objQList:[]
+            subQList:["QSample 1", "QSample 2"],
+            objQList:[{
+                q:"Example Question",
+                options:["this", "that", "here", "there"]
+            },
+            {
+                q:"Example Question No 2",
+                options:["Option1", "Op2", "Op3", "OOPP4"]
+            },
+            {
+                q:"Example Question No 2",
+                options:["Option1", "Op2", "Op3", "OOPP4"]
+            },
+            {
+                q:"Example Question No 2",
+                options:["Option1", "Op2", "Op3", "OOPP4"]
+            }]
         };
         this.props.showLoading();
-        axios.get('http://slowwly.robertomurray.co.uk/delay/2000/url/https://jsonplaceholder.typicode.com/todos/1')
+        // const url='http://slowwly.robertomurray.co.uk/delay/2000/url/https://jsonplaceholder.typicode.com/todos/1'
+        axios.get('https://jsonplaceholder.typicode.com/todos/1')
         .then(response=>{
             this.setState({studentData:sampleData});
             this.props.hideLoading();
+            this.props.studentDataLoaded(sampleData);
         })
         .catch(error=>console.log(error));
     }
@@ -74,7 +92,8 @@ const mapStateToProps = (rootState) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         showLoading:()=>dispatch(loadingActionCreator.showLoadingAction()),
-        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction())
+        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction()),
+        studentDataLoaded:(data)=>dispatch(actionCreator.studentDataLoaded(data))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Student);

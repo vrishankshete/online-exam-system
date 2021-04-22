@@ -2,30 +2,37 @@ import actionTypes from './actions';
 import {List, Map} from "immutable";
 
 const initialState = Map({
+    studentId:null,
+    batchId:null,
     subQList:List(),
     // [""]
-    objQList:List()
+    subAnsList:List(),
+    objQList:List(),
     // [{
     //     q:"",
     //     options:[]
     // }]
+    objAnsList:List()
 });
 
-export default function teacherReducer(state=initialState, action) {
+export default function studentReducer(state=initialState, action) {
 
     switch(action.type){
-        case actionTypes.SUB_Q_ADDED:
-            let subQList = state.get('subQList').push(action.payload);
-            return state.merge({subQList});
-        case actionTypes.OBJ_Q_ADDED:
-            let objQList = state.get('objQList').push(action.payload);
-            return state.merge({objQList});
-        case actionTypes.DELETE_OBJ_Q:
-            let objQList1 = state.get('objQList').delete(action.payload);
-            return state.merge({objQList: objQList1});
-        case actionTypes.DELETE_SUB_Q:
-            let subQList1 = state.get('subQList').delete(action.payload);
-            return state.merge({subQList: subQList1});
+        case actionTypes.STUDENT_DATA_LOADED:
+            return state.merge({
+                studentId:action.payload.studentId,
+                batchId:action.payload.batchId,
+                subQList:List(action.payload.subQList),
+                objQList:List(action.payload.objQList),
+            });
+        case actionTypes.OBJ_ANSWER_SELECTED:
+            let objAnsList = state.get('objAnsList').set(action.payload.index, action.payload.answer);
+            console.log("Obj Answers: ", objAnsList);
+            return state.merge({objAnsList});
+        case actionTypes.SUB_ANSWER_SELECTED:
+            let subAnsList = state.get('subAnsList').set(action.payload.index, action.payload.answer);
+            console.log("Sub Answers: ", subAnsList);
+            return state.merge({subAnsList});
         default :
             return state;
     }

@@ -5,7 +5,7 @@ const initialState = Map({
     isLoading:false
 });
 
-export default function teacherReducer(state=initialState, action) {
+export default function loadingReducer(state=initialState, action) {
 
     switch(action.type){
         case actionTypes.SHOW_LOADING:

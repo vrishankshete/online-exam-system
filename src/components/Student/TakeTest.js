@@ -2,39 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as actionCreator from './actions';
 import * as loadingActionCreator from '../Loading/actions';
-import Button from 'react-bootstrap/Button';
-import { Col, Container, Row, Form, Alert, Collapse } from 'react-bootstrap';
-import axios from 'axios';
+import SubjectiveQ from './SubjectiveQ';
+import { Col, Container, Row } from 'react-bootstrap';
+// import axios from 'axios';
+import ObjectiveQ from './ObjectiveQ';
 
 class Student extends React.Component{
-
     constructor(props){
         super(props);
         this.state={
-            openSubCollapse:false,
-            openObjCollapse:false,
-            studentData:{
-                studentId:null,
-                batchId:null,
-                isTestScheduled:true,
-                subQList:[],
-                objQList:[]
-           }
+            
         }
-    }
-
-    // componentDidMount() {
-    //     this.props.showLoading();
-    //     axios.get('http://slowwly.robertomurray.co.uk/delay/5000/url/https://jsonplaceholder.typicode.com/todos/1')
-    //     .then(response=>{
-    //         this.setState({studentData:response.data});
-    //         this.props.hideLoading();
-    //     })
-    //     .catch(error=>console.log(error));
-    // }
-
-    takeTest(){
-        this.props.history.push('/student/test');
     }
 
     render(){
@@ -42,24 +20,28 @@ class Student extends React.Component{
             <Container>
                 <Row>
                     <Col>
-                        <Button onClick={()=>this.setState({openObjCollapse:!this.state.openObjCollapse})}>
+                        {/* <Button onClick={()=>this.setState({openObjCollapse:!this.state.openObjCollapse})}>
                             Toggle Objective Questions
                         </Button>
-                        <Collapse in={this.state.openObjCollapse}>
+                        <Collapse in={this.state.openObjCollapse}> */}
                             <div id="Test">
-                            Obj Q List
+                            {this.props.objQList.map((element, index)=>
+                                <ObjectiveQ key={`obj${index}`} q={element} qNo={index} objAns={(index, answer)=>this.props.objAnsSelected({index, answer})}></ObjectiveQ>
+                            )}
                             </div>
-                        </Collapse>
+                        {/* </Collapse> */}
                     </Col>
                     <Col>
-                        <Button onClick={()=>this.setState({openSubCollapse:!this.state.openSubCollapse})}>
+                        {/* <Button onClick={()=>this.setState({openSubCollapse:!this.state.openSubCollapse})}>
                             Toggle Subjective Questions
-                        </Button>
-                        <Collapse in={this.state.openSubCollapse}>
+                        </Button> */}
+                        {/* <Collapse in={this.state.openSubCollapse}> */}
                             <div id="Test">
-                            Sub Q List
+                            {this.props.subQList.map((element, index)=>
+                                <SubjectiveQ key={`sub${index}`} q={element} qNo={index} subAns={(index, answer)=>this.props.subAnsSelected({index, answer})}></SubjectiveQ>
+                            )}
                             </div>
-                        </Collapse>
+                        {/* </Collapse> */}
                     </Col>
                 </Row>
                 
@@ -71,13 +53,19 @@ class Student extends React.Component{
 
 const mapStateToProps = (rootState) => {
     return {
-        isLoading: rootState.loading.get('isLoading')
+        isLoading: rootState.loading.get('isLoading'),
+        studentId: rootState.student.get('studentId'),
+        batchId: rootState.student.get('batchId'),
+        subQList: rootState.student.get('subQList'),
+        objQList: rootState.student.get('objQList'),
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
         showLoading:()=>dispatch(loadingActionCreator.showLoadingAction()),
-        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction())
+        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction()),
+        objAnsSelected:(ans)=>dispatch(actionCreator.objAnsSelected(ans)),
+        subAnsSelected:(ans)=>dispatch(actionCreator.subAnsSelected(ans))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Student);

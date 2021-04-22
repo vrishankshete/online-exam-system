@@ -1,35 +1,27 @@
 const actionTypes = {
-    SUB_Q_ADDED:"SUB_Q_ADDED",
-    OBJ_Q_ADDED:"OBJ_Q_ADDED",
-    DELETE_SUB_Q:"DELETE_SUB_Q",
-    DELETE_OBJ_Q:"DELETE_OBJ_Q",
+    STUDENT_DATA_LOADED:"STUDENT_DATA_LOADED",
+    OBJ_ANSWER_SELECTED:"OBJ_ANSWER_SELECTED",
+    SUB_ANSWER_SELECTED:"SUB_ANSWER_SELECTED"
 }
 
-export const subQAdded = (q)=>{
+export const studentDataLoaded = (data)=>{
     return {
-        type:actionTypes.SUB_Q_ADDED,
-        payload:q
+        type:actionTypes.STUDENT_DATA_LOADED,
+        payload:data
     }
 }
 
-export const objQAdded = (q)=>{
+export const objAnsSelected = (data)=>{
     return {
-        type:actionTypes.OBJ_Q_ADDED,
-        payload:q
+        type:actionTypes.OBJ_ANSWER_SELECTED,
+        payload:data
     }
 }
 
-export const deleteSubQ = (qNo)=>{
+export const subAnsSelected = (data)=>{
     return {
-        type:actionTypes.DELETE_SUB_Q,
-        payload:qNo
-    }
-}
-
-export const deleteObjQ = (qNo)=>{
-    return {
-        type:actionTypes.DELETE_OBJ_Q,
-        payload:qNo
+        type:actionTypes.SUB_ANSWER_SELECTED,
+        payload:data
     }
 }
 
