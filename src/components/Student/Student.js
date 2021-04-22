@@ -17,7 +17,7 @@ class Student extends React.Component{
                 isTestScheduled:true,
                 subQList:[],
                 objQList:[]
-           }
+            }
         }
     }
 

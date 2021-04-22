@@ -3,21 +3,34 @@ import {connect} from 'react-redux';
 import * as actionCreator from './actions';
 import * as loadingActionCreator from '../Loading/actions';
 import SubjectiveQ from './SubjectiveQ';
-import { Col, Container, Row } from 'react-bootstrap';
-// import axios from 'axios';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import axios from 'axios';
 import ObjectiveQ from './ObjectiveQ';
 
 class Student extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            
+            notification:null
         }
+    }
+
+    submitAnswers(){
+        let data = {
+            subAns: this.props.subAnsList.toArray(),
+            objAns: this.props.objAnsList.toArray()
+        }
+        axios.post('https://reqres.in/api/articles', data)
+        .then(response => {
+            console.log(response);
+            this.setState({notification:"Success"});
+        });
     }
 
     render(){
         return (
             <Container>
+                {this.state.notification ? <Row>{this.state.notification}</Row> : <div></div>}
                 <Row>
                     <Col>
                         {/* <Button onClick={()=>this.setState({openObjCollapse:!this.state.openObjCollapse})}>
@@ -45,7 +58,9 @@ class Student extends React.Component{
                     </Col>
                 </Row>
                 
-                
+                <Button variant="primary" onClick={()=>this.submitAnswers()}>
+                    Submit Answers
+                </Button>
             </Container>
         );
     }
@@ -58,6 +73,8 @@ const mapStateToProps = (rootState) => {
         batchId: rootState.student.get('batchId'),
         subQList: rootState.student.get('subQList'),
         objQList: rootState.student.get('objQList'),
+        subAnsList: rootState.student.get('subAnsList'),
+        objAnsList: rootState.student.get('objAnsList'),
     }
 }
 const mapDispatchToProps = (dispatch) => {
