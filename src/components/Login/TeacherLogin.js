@@ -1,9 +1,12 @@
 import React from 'react';
+import LoginHelper from './LoginHelper';
 
-export default class TeacherLogin extends React.Component{
-    render(){
+
+export default class TeacherLogin extends React.Component {
+    render() {
         return (
-            <p>Teacher</p>
+            <LoginHelper validateURL={'https://reqres.in/api/articles'} 
+                successRedirect={'/teacher/addtest'}/>
         );
     }
-} 
+}

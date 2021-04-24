@@ -4,7 +4,7 @@ class ErrorPage extends React.Component{
     render(){
         return (
             <div>
-                Does not exist !!!
+                Does not exist OR Wrong credentials !!!
             </div>
         );
     }
