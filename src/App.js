@@ -6,8 +6,13 @@ import AdminLogin from './components/Login/AdminLogin';
 import Loading from './components/Loading/Loading';
 import StudentLogin from './components/Login/StudentLogin';
 import TeacherLogin from './components/Login/TeacherLogin';
-import Dashboard from './components/Teacher/Dashboard';
+import TeacherDashboard from './components/Teacher/Dashboard';
+import AddTest from './components/Teacher/AddTest';
 import AdminDashboard from './components/Admin/Dashboard';
+import CreateStudent from './components/Admin/CreateStudent';
+import CreateTeacher from './components/Admin/CreateTeacher';
+import DeleteStudent from './components/Admin/DeleteStudent';
+import DeleteTeacher from './components/Admin/DeleteTeacher';
 import Student from './components/Student/Student';
 import TakeTest from './components/Student/TakeTest';
 import ErrorPage from './components/ErrorPage';
@@ -20,11 +25,16 @@ class App extends Component {
         <Switch>
           <Route path="/" component={Login} exact={true}/>
           <Route path="/login" component={Login}/>
-          <Route path="/teacher/addtest" component={Dashboard}/>
+          <Route path="/teacher/addtest" component={AddTest}/>
+          <Route path="/teacher/dashboard" component={TeacherDashboard}/>
           <Route path="/student/dashboard" component={Student}/>
           <Route path="/student/test" component={TakeTest}/>
           <Route path="/login" component={Login}/>
           <Route path="/admin/dashboard" component={AdminDashboard}/>
+          <Route path="/admin/createstudent" component={CreateStudent}/>
+          <Route path="/admin/createteacher" component={CreateTeacher}/>
+          <Route path="/admin/deleteteacher" component={DeleteTeacher}/>
+          <Route path="/admin/deletestudent" component={DeleteStudent}/>
           <Route path="/admin/login" component={AdminLogin}/>
           <Route path="/teacher/login" component={TeacherLogin}/>
           <Route path="/student/login" component={StudentLogin}/>

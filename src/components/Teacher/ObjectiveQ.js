@@ -12,6 +12,12 @@ class ObjectiveQ extends React.Component{
                     {this.props.q.options.map((el, index)=>{
                         return <Row>{index+1 }:{el}</Row>;
                     })}
+                    <Row>
+                        {`Marks: ${this.props.q.marks}`}
+                    </Row>
+                    <Row>
+                        {`Answer: ${this.props.q.ans}`}
+                    </Row>
                 </Col>
                 <Col sm={2}>
                     <Row>

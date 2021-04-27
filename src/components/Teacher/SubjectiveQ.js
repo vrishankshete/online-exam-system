@@ -7,11 +7,12 @@ class SubjectiveQ extends React.Component{
             <Row>
                 <Col sm={10}>
                     <Row>
-                    {`Q ${this.props.qNo + 1}`}) {this.props.q}
+                    {`Q ${this.props.qNo + 1}`}) {this.props.q.q}
                     </Row>
+                    <Row>{'marks: '}{this.props.q.m}</Row>
                 </Col>
                 <Col sm={1}>
-                    <Row>
+                    <Row style={{'paddingTop': '5px','paddingBottom':'5px'}}>
                         <Button onClick={()=>this.props.remFunc(this.props.qNo)}>
                             Remove
                         </Button>

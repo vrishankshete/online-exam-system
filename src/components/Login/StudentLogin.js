@@ -6,7 +6,7 @@ export default class StudentLogin extends React.Component {
     
     render() {
         return (
-            <LoginHelper validateURL={'https://reqres.in/api/articles'} 
+            <LoginHelper validateURL={'/studentlogin'}
                 successRedirect={'/student/dashboard'}/>
         );
     }

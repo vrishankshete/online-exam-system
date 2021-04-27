@@ -7,7 +7,9 @@ const initialState = Map({
     objQList:List()
     // [{
     //     q:"",
-    //     options:[]
+    //     options:[],
+    //     ans:""
+    //     marks:""
     // }]
 });
 

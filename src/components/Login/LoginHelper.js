@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 import * as actionCreator from './actions';
 import {connect} from 'react-redux';
 import * as loadingActionCreator from '../Loading/actions';
 import { withRouter } from 'react-router-dom';
+import config from '../../config/config.json';
 
 export class LoginHelper extends React.Component {
     constructor(props){
@@ -32,19 +33,17 @@ export class LoginHelper extends React.Component {
             username:this.state.email,
             password:this.state.password
         }
-        let loginValidateUrl = this.props.validateURL;
-        //let loginValidateUrl = 'https://reqres.in/api/articles';
-        axios.post(loginValidateUrl, data)
+        axios.post(config.serviceUrl + this.props.validateURL, data)
         .then(response => {
             console.log(response);
-            let dummyresponse={
-                token:'testToken',
-                username:'',
-                loginSuccess:true
+            response={ data: {
+                    token:'testToken',
+                    username:'',
+                    isLoginSuccessful:"true"
+                }
             };
-            if(dummyresponse.loginSuccess == true){
-                window.sessionStorage.setItem("sessionToken", dummyresponse.token);
-                //this.props.setToken(dummyresponse.token);
+            if(response.data.isLoginSuccessful == "true"){
+                window.sessionStorage.setItem("sessionToken", response.data.token);
                 this.props.history.push(this.props.successRedirect);
             } else {
                 this.setState({notification:"Username or password is incorrect"});

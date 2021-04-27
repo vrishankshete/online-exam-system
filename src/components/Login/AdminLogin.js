@@ -5,7 +5,7 @@ export default class AdminLogin extends React.Component {
     
     render() {
         return (
-            <LoginHelper validateURL={'https://reqres.in/api/articles'} 
+            <LoginHelper validateURL={'/adminlogin'} 
                 successRedirect={'/admin/dashboard'}/>
         );
     }

@@ -6,6 +6,7 @@ import SubjectiveQ from './SubjectiveQ';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
 import ObjectiveQ from './ObjectiveQ';
+import config from '../../config/config.json';
 
 class Student extends React.Component{
     constructor(props){
@@ -20,7 +21,7 @@ class Student extends React.Component{
             subAns: this.props.subAnsList.toArray(),
             objAns: this.props.objAnsList.toArray()
         }
-        axios.post('https://reqres.in/api/articles', data)
+        axios.post(config.serviceUrl + '/answers', data)
         .then(response => {
             console.log(response);
             this.setState({notification:"Success"});

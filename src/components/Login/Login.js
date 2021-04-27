@@ -20,9 +20,6 @@ export default class Login extends React.Component{
                 <Button as={Link} to="/admin/login" variant='primary' size='lg'>
                     Administrator Login
                 </Button>
-                <Button onClick={()=>{this.toAdmin()}} variant='primary' size='lg'>
-                    Administrator2 Login
-                </Button>
             </ButtonToolbar>
         );
     }

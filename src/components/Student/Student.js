@@ -5,6 +5,7 @@ import * as loadingActionCreator from '../Loading/actions';
 import Button from 'react-bootstrap/Button';
 import { Container, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import config from '../../config/config.json';
 
 class Student extends React.Component{
 
@@ -46,11 +47,13 @@ class Student extends React.Component{
         };
         this.props.showLoading();
         // const url='http://slowwly.robertomurray.co.uk/delay/2000/url/https://jsonplaceholder.typicode.com/todos/1'
+        // axios.get(config.serviceUrl + '/studentdata')
         axios.get('https://jsonplaceholder.typicode.com/todos/1')
         .then(response=>{
-            this.setState({studentData:sampleData});
+            response.data = sampleData;
+            this.setState({studentData:response.data});
             this.props.hideLoading();
-            this.props.studentDataLoaded(sampleData);
+            this.props.studentDataLoaded(response.data);
         })
         .catch(error=>console.log(error));
     }
