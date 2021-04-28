@@ -1,7 +1,6 @@
 const actionTypes = {
     STUDENT_DATA_LOADED:"STUDENT_DATA_LOADED",
-    OBJ_ANSWER_SELECTED:"OBJ_ANSWER_SELECTED",
-    SUB_ANSWER_SELECTED:"SUB_ANSWER_SELECTED"
+    SET_TEST:"SET_TEST"
 }
 
 export const studentDataLoaded = (data)=>{
@@ -11,16 +10,9 @@ export const studentDataLoaded = (data)=>{
     }
 }
 
-export const objAnsSelected = (data)=>{
+export const setTest = (data)=>{
     return {
-        type:actionTypes.OBJ_ANSWER_SELECTED,
-        payload:data
-    }
-}
-
-export const subAnsSelected = (data)=>{
-    return {
-        type:actionTypes.SUB_ANSWER_SELECTED,
+        type:actionTypes.SET_TEST,
         payload:data
     }
 }

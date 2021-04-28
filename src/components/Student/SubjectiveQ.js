@@ -8,9 +8,9 @@ class SubjectiveQ extends React.Component{
                 <Form>
                         <Form.Group controlId="formBasicSubQ">
                             <Form.Label>{`Q ${this.props.qNo + 1}`}) {this.props.q}</Form.Label>
-                            <Form.Control as="textarea" rows={2}
+                            {/* <Form.Control as="textarea" rows={2}
                                 onBlur={(e) => this.props.subAns(this.props.qNo, e.target.value)}
-                            />
+                            /> */}
                         </Form.Group>
                 </Form>
             </Row>

@@ -71,7 +71,7 @@ export class CreateStudent extends React.Component {
             first_name, last_name, middle_name, login_id,password,year,dept,roll_no
         });
         console.log("Form Data: ", form_data);
-        axios.post(config.serviceUrl, form_data, {
+        axios.post(config.serviceUrl + 'createstudent', form_data, {
           headers: {
             'content-type': 'multipart/form-data'
           }

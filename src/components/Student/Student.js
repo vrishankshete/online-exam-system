@@ -14,10 +14,7 @@ class Student extends React.Component{
         this.state={
             studentData:{
                 studentId:null,
-                batchId:null,
-                isTestScheduled:true,
-                subQList:[],
-                objQList:[]
+                testList:[]
             }
         }
     }
@@ -25,24 +22,15 @@ class Student extends React.Component{
     componentDidMount() {
         let sampleData={
             studentId:1234,
-            batchId:'1A',
-            isTestScheduled:true,
-            subQList:["QSample 1", "QSample 2"],
-            objQList:[{
-                q:"Example Question",
-                options:["this", "that", "here", "there"]
+            testList:[{
+                examId:111,
+                subject:'English',
+                taken:true
             },
             {
-                q:"Example Question No 2",
-                options:["Option1", "Op2", "Op3", "OOPP4"]
-            },
-            {
-                q:"Example Question No 2",
-                options:["Option1", "Op2", "Op3", "OOPP4"]
-            },
-            {
-                q:"Example Question No 2",
-                options:["Option1", "Op2", "Op3", "OOPP4"]
+                examId:222,
+                subject:'Maths',
+                taken:false
             }]
         };
         this.props.showLoading();
@@ -58,24 +46,36 @@ class Student extends React.Component{
         .catch(error=>console.log(error));
     }
 
-    takeTest(){
+    takeTest(index){
+        this.props.setTest(this.state.studentData.testList[index].examId);
         this.props.history.push('/student/test');
     }
 
     render(){
+        const {testList,studentId} = this.state.studentData;
         return (
             <Container>
                 {<div>
                     <Alert variant={'primary'}>
-                            Batch Id:{this.state.studentData.batchId}
-                            <br/>Student Id:{this.state.studentData.studentId}
+                        Student Id:{studentId}
                     </Alert>
-                    {this.state.studentData.isTestScheduled
+                    {testList.length>0
                     ?   <div>
                             <Alert variant={'primary'}>Test Scheduled for you.</Alert>
-                            <Button variant="primary" onClick={()=>this.takeTest()}>
-                                    Take Test
-                            </Button>
+
+                            {
+                                testList.map((test, index)=>{
+                                    return <div>
+                                        Exam Id: {test.examId}
+                                        Subject: {test.subject}
+                                        <Button variant="primary" onClick={()=>this.takeTest(index)}>
+                                            Take Test
+                                        </Button>
+                                    </div>
+                                })
+                            }
+
+                            
                         </div>   
                     :   <Alert variant={'primary'}>
                             Test Not Scheduled for you yet
@@ -96,7 +96,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         showLoading:()=>dispatch(loadingActionCreator.showLoadingAction()),
         hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction()),
-        studentDataLoaded:(data)=>dispatch(actionCreator.studentDataLoaded(data))
+        studentDataLoaded:(data)=>dispatch(actionCreator.studentDataLoaded(data)),
+        setTest:(data)=>dispatch(actionCreator.setTest(data))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Student);

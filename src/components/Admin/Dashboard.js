@@ -81,7 +81,7 @@ class Dashboard extends React.Component{
                   <div class="card text-black #FFFFFF mb-3" style={{maxWidth: '18rem', height: '14.2rem'}}>
                       <Card.Body>
                         <Card.Title>View user</Card.Title>
-                        <Card.Text>admin can view users list </Card.Text>
+                        <Card.Text>Admin can view users list </Card.Text>
                         <div style={{paddingBottom: '10px', paddingTop: '20px'}}>
                           <button class="btn btn-primary">Click to view student list</button>
                         </div>
