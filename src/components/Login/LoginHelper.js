@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import * as actionCreator from './actions';
 import {connect} from 'react-redux';
@@ -55,23 +55,27 @@ export class LoginHelper extends React.Component {
     render() {
         return (
             <Form onSubmit={(e)=>this.loginSubmitted(e)}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                        value={this.state.email}
-                        onChange={(e) => this.setEmail(e.target.value)}
-                        type="email" 
-                        placeholder="Enter email" 
-                    />
+                <Form.Group as={Row} controlId="formBasicEmail">
+                    <Form.Label column sm={2}>Email address</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control
+                            value={this.state.email}
+                            onChange={(e) => this.setEmail(e.target.value)}
+                            type="email" 
+                            placeholder="Enter email" 
+                        />
+                    </Col>
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control 
-                        type="password"
-                        placeholder="Password" 
-                        value={this.state.password}
-                        onChange={(e) => this.setPassword(e.target.value)}
-                    />
+                <Form.Group as={Row} controlId="formBasicPassword">
+                    <Form.Label column sm={2}>Password</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control 
+                            type="password"
+                            placeholder="Password" 
+                            value={this.state.password}
+                            onChange={(e) => this.setPassword(e.target.value)}
+                        />
+                    </Col>
                 </Form.Group>
                 <Button variant="primary" type="submit" disabled={this.validateForm()}>
                     Submit

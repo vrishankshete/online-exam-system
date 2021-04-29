@@ -7,6 +7,7 @@ import Loading from './components/Loading/Loading';
 import StudentLogin from './components/Login/StudentLogin';
 import TeacherLogin from './components/Login/TeacherLogin';
 import TeacherDashboard from './components/Teacher/Dashboard';
+import EvaluateTest from './components/Teacher/EvaluateTest';
 import AddTest from './components/Teacher/AddTest';
 import AdminDashboard from './components/Admin/Dashboard';
 import CreateStudent from './components/Admin/CreateStudent';
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path="/login" component={Login}/>
           <Route path="/teacher/addtest" component={AddTest}/>
           <Route path="/teacher/dashboard" component={TeacherDashboard}/>
+          <Route path="/teacher/evaluatetest" component={EvaluateTest}/>
           <Route path="/student/dashboard" component={Student}/>
           <Route path="/student/test" component={TakeTest}/>
           <Route path="/login" component={Login}/>
