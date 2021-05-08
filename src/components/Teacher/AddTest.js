@@ -7,6 +7,8 @@ import SubjectiveQ from './SubjectiveQ';
 import ObjectiveQ from './ObjectiveQ';
 import axios from 'axios';
 import config from '../../config/config.json'
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
 
 class AddTest extends React.Component{
     constructor(props){
@@ -19,14 +21,16 @@ class AddTest extends React.Component{
             op3:'',
             op4:'',
             opc:'',
-            success:true,
+            success:false,
             ExamId:'',
             subject:'',
             error:'',
             markSub:'',
             markObj:'',
             year:'',
-            dept:''
+            dept:'',
+            fromDate: new Date(),
+            toDate: new Date()
         }
     }
     setsubQ(subQ) {
@@ -111,13 +115,28 @@ class AddTest extends React.Component{
     submitQPaper(){
         if((this.props.objQList.size>0 || this.props.subQList.size>0) && this.state.ExamId.length>0 &&  this.state.subject.length>0 && this.state.year.length>0 && this.state.dept.length>0){
             this.setState({error:""});
-            const data = { objQList:this.props.objQList, subQList:this.props.subQList, ExamId:this.state.ExamId, subject:this.state.subject, year:this.state.year, dept:this.state.dept};
+            const data = { objQList:this.props.objQList, 
+                subQList:this.props.subQList, 
+                ExamId:this.state.ExamId,
+                subject:this.state.subject, 
+                year:this.state.year, 
+                dept:this.state.dept, 
+                fromDate:this.state.fromDate.toISOString(),
+                toDate:this.state.toDate.toISOString()};
             axios.post(config.serviceUrl + '/questionpaper', data)
                 .then(response => { console.log(response); this.setState({ success: true })});
             this.props.history.push('/teacher/dashboard');
         } else {
             this.setState({error:"Please enter the required data"});
         }
+    }
+
+    fromDateChanged(date){
+        this.setState({fromDate:date})
+    }
+
+    toDateChanged(date){
+        this.setState({toDate:date})
     }
 
     render(){    
@@ -157,6 +176,9 @@ class AddTest extends React.Component{
                     onChange={(e) => this.setdept(e.target.value)}
                     className={"invalid"}
                 />
+                <div><br/>Test Valid From: <Datetime value={this.state.fromDate} onChange={(date)=>this.fromDateChanged(date)}/>
+                Test Valid To: <Datetime value={this.state.toDate} onChange={(date)=>this.toDateChanged(date)}/>
+                </div>
                 </Row>
                 <Row>
                     <Col sm={4}>
