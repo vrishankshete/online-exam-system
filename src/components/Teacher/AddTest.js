@@ -115,7 +115,9 @@ class AddTest extends React.Component{
     submitQPaper(){
         if((this.props.objQList.size>0 || this.props.subQList.size>0) && this.state.ExamId.length>0 &&  this.state.subject.length>0 && this.state.year.length>0 && this.state.dept.length>0){
             this.setState({error:""});
-            const data = { objQList:this.props.objQList, 
+            const data = { 
+                userName:this.props.userName,
+                objQList:this.props.objQList, 
                 subQList:this.props.subQList, 
                 ExamId:this.state.ExamId,
                 subject:this.state.subject, 
@@ -270,7 +272,8 @@ class AddTest extends React.Component{
 const mapStateToProps = (rootState) => {
     return {
         subQList: rootState.teacher.get('subQList'),
-        objQList: rootState.teacher.get('objQList')
+        objQList: rootState.teacher.get('objQList'),
+        userName: rootState.login.get('userName')
     }
 }
 const mapDispatchToProps = (dispatch) => {

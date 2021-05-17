@@ -36,7 +36,8 @@ export class LoginHelper extends React.Component {
         axios.post(config.serviceUrl + this.props.validateURL, data)
         .then(response => {
             console.log(response);
-            response={ data: {
+            response={ 
+                data: {
                     token:'testToken',
                     username:'',
                     isLoginSuccessful:"true"
@@ -44,7 +45,10 @@ export class LoginHelper extends React.Component {
             };
             if(response.data.isLoginSuccessful == "true"){
                 window.sessionStorage.setItem("sessionToken", response.data.token);
+                window.sessionStorage.setItem("username", this.state.email);
+                window.sessionStorage.setItem("userType", this.props.userType);
                 this.props.history.push(this.props.successRedirect);
+                this.props.setUserName(this.state.email)
             } else {
                 this.setState({notification:"Username or password is incorrect"});
                 this.props.history.push('/error');
@@ -89,7 +93,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setToken:(token)=>dispatch(actionCreator.setToken(token)),
         showLoading:()=>dispatch(loadingActionCreator.showLoadingAction()),
-        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction())
+        hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction()),
+        setUserName:(userName)=>dispatch(actionCreator.setUserName(userName))
     }
 }
 export default connect(null, mapDispatchToProps)(withRouter(LoginHelper));

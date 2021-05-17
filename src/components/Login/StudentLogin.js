@@ -7,7 +7,8 @@ export default class StudentLogin extends React.Component {
     render() {
         return (
             <LoginHelper validateURL={'/studentlogin'}
-                successRedirect={'/student/dashboard'}/>
+                successRedirect={'/student/dashboard'}
+                userType={'student'}/>
         );
     }
 }

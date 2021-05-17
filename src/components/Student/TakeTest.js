@@ -10,10 +10,10 @@ import Webcam from "react-webcam";
 import config from '../../config/config.json';
 import WebcamModal from './WebcamModal';
 
-class Student extends React.Component{
+class TakeTest extends React.Component{
     constructor(props){
         super(props);
-        
+        this.count_vis = 0;
         // [{
         //     qNo:1,
         //     Ans:"B"
@@ -34,6 +34,8 @@ class Student extends React.Component{
             captureFlag:false
         }
     }
+
+    
 
     submitAnswers(){
         this.props.showLoading();
@@ -65,7 +67,47 @@ class Student extends React.Component{
         this.setState({capturedImages});
     }
 
+    // componentWillUnmount() {
+    //     window.removeEventListener("focus", this.onFocus)
+    // }
+
+    componentWillUnmount() {
+        this.count_vis = 0;
+    }
+
     componentDidMount() {
+
+        if(window.sessionStorage.getItem("sessionToken") == null){
+            this.props.history.push('/login');
+        } else if(window.sessionStorage.getItem("userType") != 'student'){
+            window.sessionStorage.setItem("sessionToken", null);
+            window.sessionStorage.setItem("username", null);
+            window.sessionStorage.setItem("userType", null);
+            this.props.history.push('/login');
+        }
+
+        
+        document.addEventListener("visibilitychange", ()=>{
+             if(document.hidden){
+                this.count_vis++;
+                if(this.count_vis>='3' ){
+                    if(this.count_vis==3){
+                        alert('Do not switch Tab.This is last warning.');
+                    }
+                    else{
+                        window.sessionStorage.setItem("sessionToken", null);
+                        window.sessionStorage.setItem("username", null);
+                        window.sessionStorage.setItem("userType", null);
+                        this.props.history.push('/login');
+                    }
+                }
+                else {
+                     console.log(this.count_vis);
+                     alert('Do not switch Tab.');
+                }  
+             }
+         })
+
         this.props.showLoading();
         // const url='http://slowwly.robertomurray.co.uk/delay/2000/url/https://jsonplaceholder.typicode.com/todos/1'
         // axios.get(config.serviceUrl + '/studentdata')
@@ -163,4 +205,4 @@ const mapDispatchToProps = (dispatch) => {
         hideLoading:()=>dispatch(loadingActionCreator.hideLoadingAction())
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Student);
+export default connect(mapStateToProps, mapDispatchToProps)(TakeTest);

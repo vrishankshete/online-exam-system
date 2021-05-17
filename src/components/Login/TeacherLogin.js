@@ -6,7 +6,8 @@ export default class TeacherLogin extends React.Component {
     render() {
         return (
             <LoginHelper validateURL={'/teacherlogin'} 
-                successRedirect={'/teacher/dashboard'}/>
+                successRedirect={'/teacher/dashboard'}
+                userType={'teacher'}/>
         );
     }
 }

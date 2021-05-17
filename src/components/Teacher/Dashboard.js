@@ -15,6 +15,11 @@ class Dashboard extends React.Component{
     componentDidMount(){
         if(window.sessionStorage.getItem("sessionToken") == null){
             this.props.history.push('/login');
+        } else if(window.sessionStorage.getItem("userType") != 'teacher'){
+            window.sessionStorage.setItem("sessionToken", null);
+            window.sessionStorage.setItem("username", null);
+            window.sessionStorage.setItem("userType", null);
+            this.props.history.push('/login');
         }
     }
    
@@ -24,7 +29,6 @@ class Dashboard extends React.Component{
     EvaluateTest(){
         this.props.history.push('/teacher/evaluatetest');
     }
-    
 
     render(){
         return (
