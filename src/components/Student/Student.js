@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import * as actionCreator from './actions';
 import * as loadingActionCreator from '../Loading/actions';
 import Button from 'react-bootstrap/Button';
-import { Container, Alert } from 'react-bootstrap';
+import { Container, Alert, Tab, Col, Row, Nav } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../config/config.json';
 
@@ -54,35 +54,63 @@ class Student extends React.Component{
     render(){
         const {testList,studentId} = this.state.studentData;
         return (
-            <Container>
-                {<div>
-                    <Alert variant={'primary'}>
-                        Student Id:{studentId}
-                    </Alert>
-                    {testList.length>0
-                    ?   <div>
-                            <Alert variant={'primary'}>Test Scheduled for you.</Alert>
 
-                            {
-                                testList.map((test, index)=>{
-                                    return <div>
-                                        Exam Id: {test.examId}
-                                        Subject: {test.subject}
-                                        <Button variant="primary" onClick={()=>this.takeTest(index)}>
-                                            Take Test
-                                        </Button>
-                                    </div>
-                                })
-                            }
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row>
+                    <Col sm={3}>
+                    <Nav variant="pills" className="flex-column">
+                        <Nav.Item>
+                        <Nav.Link eventKey="first">Instructions</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                        <Nav.Link eventKey="second">Results</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                        <Nav.Link eventKey="third">Exams Scheduled</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                    </Col>
+                    <Col sm={9}>
+                    <Tab.Content>
+                        <Tab.Pane eventKey="first">
+                            Instructions Component
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="second">
+                            <Container>
+                            {<div>
+                                <Alert variant={'primary'}>
+                                    Student Id:{studentId}
+                                </Alert>
+                                {testList.length>0
+                                ?   <div>
+                                        <Alert variant={'primary'}>Test Scheduled for you.</Alert>
 
-                            
-                        </div>   
-                    :   <Alert variant={'primary'}>
-                            Test Not Scheduled for you yet
-                        </Alert>
-                    }
-                </div>}
-            </Container>
+                                        {
+                                            testList.map((test, index)=>{
+                                                return <div>
+                                                    Exam Id: {test.examId}
+                                                    Subject: {test.subject}
+                                                    <Button variant="primary" onClick={()=>this.takeTest(index)}>
+                                                        Take Test
+                                                    </Button>
+                                                </div>
+                                            })
+                                        }
+                                    </div>   
+                                :   <Alert variant={'primary'}>
+                                        Test Not Scheduled for you yet
+                                    </Alert>
+                                }
+                                </div>}
+                            </Container>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="third">
+                            Exams Scheduled Component
+                        </Tab.Pane>
+                    </Tab.Content>
+                    </Col>
+                </Row>
+                </Tab.Container>
         );
     }
 }
