@@ -5,6 +5,7 @@ const initialState = Map({
     studentId:null,
     testList:[],
     examId: null,
+    resultList:[],
     /*
     {
         examId:1,
@@ -38,6 +39,11 @@ export default function studentReducer(state=initialState, action) {
             return state.merge({
                 studentId:action.payload.studentId,
                 testList:action.payload.testList
+            });
+        case actionTypes.RESULT_DATA_LOADED:
+            return state.merge({
+                studentId:action.payload.studentId,
+                resultList:action.payload.resultList
             });
         case actionTypes.SET_TEST:
             console.log("Reducer examId: ", action.payload)

@@ -19,13 +19,13 @@ class ObjectiveQ extends React.Component{
                         {`Answer: ${this.props.q.ans}`}
                     </Row>
                 </Col>
-                <Col sm={2}>
+                {this.props.isViewMode ? <div/> : <Col sm={2}>
                     <Row>
                         <Button onClick={()=>this.props.remFunc(this.props.qNo)}>
                             Remove
                         </Button>
                     </Row>
-                </Col>
+                </Col>}
             </Row>
         );
     }

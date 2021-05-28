@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as actionCreator from './actions';
 import Button from 'react-bootstrap/Button';
-import { Col, Container, Row, Form } from 'react-bootstrap';
+import { Col, Container, Row, Form ,Alert} from 'react-bootstrap';
 import SubjectiveQ from './SubjectiveQ';
 import ObjectiveQ from './ObjectiveQ';
 import axios from 'axios';
@@ -30,7 +30,10 @@ class AddTest extends React.Component{
             year:'',
             dept:'',
             fromDate: new Date(),
-            toDate: new Date()
+            toDate: new Date(),
+            username: sessionStorage.getItem('username'),
+            SubQno:'',
+            ObjQno:''
         }
     }
     setsubQ(subQ) {
@@ -42,6 +45,17 @@ class AddTest extends React.Component{
     setmarkSub(markSub) {
        this.setState({markSub});
    }
+    
+   componentDidMount(){
+    if(window.sessionStorage.getItem("sessionToken") == null){
+        this.props.history.push('/login');
+    } else if(window.sessionStorage.getItem("userType") != 'teacher'){
+        window.sessionStorage.setItem("sessionToken", null);
+        window.sessionStorage.setItem("username", null);
+        window.sessionStorage.setItem("userType", null);
+        this.props.history.push('/login');
+    }
+}
 
     submitSubQ() {
         if(this.state.subQ.length<=0 || this.state.markSub.length<=0){
@@ -116,7 +130,9 @@ class AddTest extends React.Component{
         if((this.props.objQList.size>0 || this.props.subQList.size>0) && this.state.ExamId.length>0 &&  this.state.subject.length>0 && this.state.year.length>0 && this.state.dept.length>0){
             this.setState({error:""});
             const data = { 
-                userName:this.props.userName,
+                SubQno:this.props.subQList.size,
+                ObjQno:this.props.objQList.size,
+                username:this.state.username,
                 objQList:this.props.objQList, 
                 subQList:this.props.subQList, 
                 ExamId:this.state.ExamId,
@@ -127,7 +143,7 @@ class AddTest extends React.Component{
                 toDate:this.state.toDate.toISOString()};
             axios.post(config.serviceUrl + '/questionpaper', data)
                 .then(response => { console.log(response); this.setState({ success: true })});
-            this.props.history.push('/teacher/dashboard');
+         this.props.history.push('/teacher/dashboard');
         } else {
             this.setState({error:"Please enter the required data"});
         }
@@ -255,12 +271,12 @@ class AddTest extends React.Component{
                     <Col sm={8} style={{'overflowY': 'auto','height': '500px','fontSize':'25px','paddingTop':'30px'}}>
                         <Row>Subjective Questions</Row>  
                         {this.props.subQList.map((element, index)=>
-                            <SubjectiveQ q={element} qNo={index} remFunc={this.removeSubQ}></SubjectiveQ>
+                            <SubjectiveQ q={element} qNo={index} remFunc={this.removeSubQ} isViewMode={false}></SubjectiveQ>
                         )}
                         <hr></hr>
                         <Row>Objective Questions</Row>
                         {this.props.objQList.map((element, index)=>
-                            <ObjectiveQ q={element} qNo={index} remFunc={this.removeObjQ}></ObjectiveQ>
+                            <ObjectiveQ q={element} qNo={index} remFunc={this.removeObjQ} isViewMode={false}></ObjectiveQ>
                         )}
                     </Col>
                 </Row>

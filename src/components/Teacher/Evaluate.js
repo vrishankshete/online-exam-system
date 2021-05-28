@@ -10,7 +10,7 @@ class EvaluateTest extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            username:'',
+            rollNo:'',
             examId:'',
             pdfUrl:null,
             objMarks:null,
@@ -20,38 +20,7 @@ class EvaluateTest extends React.Component{
     componentDidMount(){
         if(window.sessionStorage.getItem("sessionToken") == null){
             this.props.history.push('/login');
-        } else if(window.sessionStorage.getItem("userType") != 'teacher'){
-            window.sessionStorage.setItem("sessionToken", null);
-            window.sessionStorage.setItem("username", null);
-            window.sessionStorage.setItem("userType", null);
-            this.props.history.push('/login');
         }
-        //e.preventDefault();
-        this.props.showLoading();
-        const {username, examId} = this.state;
-        
-        let url = 'http://localhost:3001/pdf';
-        let marksUrl = config.serviceUrl;
-        // let url = `${config.serviceUrl}/fetchobjmarks?rollno=${rollNo}&examid=${examId}`;
-        Promise.all([axios.get(url).then(res => {
-            console.log("PDF Fetched ",res.data);
-            const file = new Blob(
-                [res.data], 
-                {type: 'application/pdf'});
-            this.setState({pdfUrl:URL.createObjectURL(file)});
-        }).catch(err => {
-            console.log(err);
-        }), 
-            axios.get(marksUrl).then(res => {
-                console.log("Marks Fetched", res.data);
-                res.data=60;
-                this.setState({objMarks:res.data});
-            }).catch(err => {
-                console.log(err);
-            })
-        ]).then(()=>{
-            this.props.hideLoading();
-        });
     }
     // setRollNo(rollNo) {
     //     this.setState({rollNo});
@@ -62,42 +31,45 @@ class EvaluateTest extends React.Component{
     setSubMarks(subMarks) {
         this.setState({subMarks});
     }
-    // validateForm(){
-    //     return !(this.state.rollNo.length > 0 && this.state.examId.length > 0);
-    // }
+
+
+    validateForm(){
+        // return !(this.state.rollNo.length > 0 && this.state.examId.length > 0);
+        return !(this.state.subMarks.length > 0 );
+    }
     validateSubmitForm(){
         return !(this.state.subMarks && this.state.subMarks.length > 0);
     }
 
     // fetchAnswerSheetAndMarks(e) {
-        // e.preventDefault();
-        // this.props.showLoading();
-        // const {rollNo, examId} = this.state;
+    //     e.preventDefault();
+    //     this.props.showLoading();
+    //     const {rollNo, examId} = this.state;
         
-        // let url = 'http://localhost:3001/pdf';
-        // let marksUrl = config.serviceUrl;
-        // // let url = `${config.serviceUrl}/fetchobjmarks?rollno=${rollNo}&examid=${examId}`;
-        // Promise.all([axios.get(url).then(res => {
-        //     console.log("PDF Fetched ",res.data);
-        //     const file = new Blob(
-        //         [res.data], 
-        //         {type: 'application/pdf'});
-        //     this.setState({pdfUrl:URL.createObjectURL(file)});
-        // }).catch(err => {
-        //     console.log(err);
-        // }), 
-        //     axios.get(marksUrl).then(res => {
-        //         console.log("Marks Fetched", res.data);
-        //         res.data=60;
-        //         this.setState({objMarks:res.data});
-        //     }).catch(err => {
-        //         console.log(err);
-        //     })
-        // ]).then(()=>{
-        //     this.props.hideLoading();
-        // });
-    //};
-
+    //     let url = 'http://localhost:3001/pdf';
+    //     let marksUrl = config.serviceUrl;
+    //     // let url = `${config.serviceUrl}/fetchobjmarks?rollno=${rollNo}&examid=${examId}`;
+    //     Promise.all([axios.get(url).then(res => {
+    //         console.log("PDF Fetched ",res.data);
+    //         const file = new Blob(
+    //             [res.data], 
+    //             {type: 'application/pdf'});
+    //         this.setState({pdfUrl:URL.createObjectURL(file)});
+    //     }).catch(err => {
+    //         console.log(err);
+    //     }), 
+    //         axios.get(marksUrl).then(res => {
+    //             console.log("Marks Fetched", res.data);
+    //             res.data=60;
+    //             this.setState({objMarks:res.data});
+    //         }).catch(err => {
+    //             console.log(err);
+    //         })
+    //     ]).then(()=>{
+    //         this.props.hideLoading();
+    //     });
+    // };
+in above function fetch pdf when the page is mounted.
     submitMarks(){
         this.props.showLoading();
         const {rollNo, examId, subMarks} = this.state;
@@ -111,7 +83,6 @@ class EvaluateTest extends React.Component{
         .then(response => {
             console.log(response);
             this.props.hideLoading();
-            this.props.history.push('/teacher/evaluationDash');
         }).catch(error=>{
             console.log(error);
             this.props.hideLoading();
@@ -119,12 +90,12 @@ class EvaluateTest extends React.Component{
     }
 
     render(){
-        const {rollNo, examId, pdfUrl, objMarks, subMarks,username} = this.state;
+        const {rollNo, examId, pdfUrl, objMarks, subMarks} = this.state;
         return (
             <Container>
                 <Row>
-                    {/* <Col>
-                        <Form onSubmit={(e)=>this.fetchAnswerSheetAndMarks(e)}>
+                    <Col>
+                        {/* Form onSubmit={(e)=>this.fetchAnswerSheetAndMarks(e)}>
                             <Form.Group as={Row} controlId="formBasicRollNo">
                                 <Form.Label column>Roll No</Form.Label>
                                 <Col>
@@ -136,7 +107,7 @@ class EvaluateTest extends React.Component{
                                         required
                                     />
                                 </Col>
-                            </Form.Group>
+                            </Form.Group><
                             <Form.Group as={Row} controlId="formBasicExamId">
                                 <Form.Label column>Exam Id</Form.Label>
                                 <Col>
@@ -152,8 +123,10 @@ class EvaluateTest extends React.Component{
                             <Button variant="primary" type="submit" disabled={this.validateForm()}>
                                 Fetch
                             </Button>
-                        </Form>
-                    </Col> */}
+                        </Form> */}
+Instead of fetching on submit, design a similar dashboard to student dashboard and when evaluate is mounted,
+show marks and pdf.
+                    </Col>
                     <Col>
                         {objMarks && <div>
                         <Row>

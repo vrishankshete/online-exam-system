@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import * as actionCreator from './actions';
+//import * as actionCreator from './actions';
 import * as loadingActionCreator from '../Loading/actions';
 import SubjectiveQ from './SubjectiveQ';
-import { Button, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Image, Row, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import ObjectiveQ from './ObjectiveQ';
 import Webcam from "react-webcam";
@@ -30,8 +30,10 @@ class TakeTest extends React.Component{
             objQList:[],
             subAns:[],
             objAns:[],
+            username: sessionStorage.getItem('username'),
             capturedImages:[],
-            captureFlag:false
+            captureFlag:false,
+           
         }
     }
 
@@ -40,18 +42,22 @@ class TakeTest extends React.Component{
     submitAnswers(){
         this.props.showLoading();
         let retObjAnsArray = this.state.objAns.map((objans, index)=>{ 
-            return {qNo:index+1, Ans:objans}
+          //  return {qNo:index+1, Ans:objans}
+          return {Ans:objans}
         });
         let data = {
             objAns: retObjAnsArray,
-            subAns: this.state.capturedImages
+            subAns: this.state.capturedImages,
+            username:this.state.username,
+            examId:this.state.examId
         }
         console.log(data);
-        axios.post(config.serviceUrl + '/answers', data)
+        axios.post(config.serviceUrl + 'answers', data)
         .then(response => {
             console.log(response);
             this.setState({notification:"Success"});
             this.props.hideLoading();
+            this.props.history.push('/student/dashboard');
         });
     }
 
@@ -73,6 +79,7 @@ class TakeTest extends React.Component{
 
     componentWillUnmount() {
         this.count_vis = 0;
+        document.removeEventListener("visibilitychange", ()=>{console.log("Removed event listener")});
     }
 
     componentDidMount() {
@@ -89,20 +96,24 @@ class TakeTest extends React.Component{
         
         document.addEventListener("visibilitychange", ()=>{
              if(document.hidden){
+                console.log("outer:  ",this.count_vis);
                 this.count_vis++;
                 if(this.count_vis>='3' ){
                     if(this.count_vis==3){
+                        console.log("3 count",this.count_vis);
                         alert('Do not switch Tab.This is last warning.');
                     }
                     else{
+                        console.log(">3  ",this.count_vis);
                         window.sessionStorage.setItem("sessionToken", null);
                         window.sessionStorage.setItem("username", null);
                         window.sessionStorage.setItem("userType", null);
+                        document.removeEventListener("visibilitychange", ()=>{console.log("Removed event listener")});
                         this.props.history.push('/login');
                     }
                 }
                 else {
-                     console.log(this.count_vis);
+                     console.log("<3  ",this.count_vis);
                      alert('Do not switch Tab.');
                 }  
              }
@@ -111,7 +122,7 @@ class TakeTest extends React.Component{
         this.props.showLoading();
         // const url='http://slowwly.robertomurray.co.uk/delay/2000/url/https://jsonplaceholder.typicode.com/todos/1'
         // axios.get(config.serviceUrl + '/studentdata')
-        let sampleData = {
+         let sampleData = {
             examId:1,
             subQList:["QSample 1", "QSample 2"],
             objQList:[{
@@ -153,8 +164,13 @@ class TakeTest extends React.Component{
         const {notification, subQList, objQList} = this.state
         return (
             <Container>
-                <Row>Exam Id: {this.props.examId}</Row>
+                <div style={{'paddingTop':'30px'}}>
+                    <Alert variant={'primary'} >
+                    <Row>Exam Id: {this.props.examId}</Row>
                 <Row>Student Id: {this.props.studentId}</Row>
+                    </Alert>
+                    </div>
+                
                 {notification ? <Row>{notification}</Row> : <div></div>}
                 <Row>
                     <Col>

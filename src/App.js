@@ -8,6 +8,8 @@ import StudentLogin from './components/Login/StudentLogin';
 import TeacherLogin from './components/Login/TeacherLogin';
 import TeacherDashboard from './components/Teacher/Dashboard';
 import EvaluateTest from './components/Teacher/EvaluateTest';
+import ViewPaper from './components/Teacher/ViewPaper';
+import QuestionDashboard from './components/Teacher/QuestionDashboard';
 import AddTest from './components/Teacher/AddTest';
 import AdminDashboard from './components/Admin/Dashboard';
 import CreateStudent from './components/Admin/CreateStudent';
@@ -18,7 +20,8 @@ import Student from './components/Student/Student';
 import TakeTest from './components/Student/TakeTest';
 import ErrorPage from './components/ErrorPage';
 import {Switch, Route} from 'react-router-dom';
-
+//import ResultDashboard from './components/Student/ResultDashboard';
+import EvaluateDash from './components/Teacher/EvaluateDash';
 class App extends Component {
   render() {
     return (
@@ -29,8 +32,12 @@ class App extends Component {
           <Route path="/teacher/addtest" component={AddTest}/>
           <Route path="/teacher/dashboard" component={TeacherDashboard}/>
           <Route path="/teacher/evaluatetest" component={EvaluateTest}/>
+          <Route path="/teacher/paperlist" component={QuestionDashboard}/>
+          <Route path="/teacher/questionpaper" component={ViewPaper}/>
           <Route path="/student/dashboard" component={Student}/>
           <Route path="/student/test" component={TakeTest}/>
+          {/* <Route path="/student/result" component={ResultDashboard}/> */}
+          <Route path="/teacher/evaluationDash" component={EvaluateDash}/>
           <Route path="/login" component={Login}/>
           <Route path="/admin/dashboard" component={AdminDashboard}/>
           <Route path="/admin/createstudent" component={CreateStudent}/>
