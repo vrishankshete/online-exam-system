@@ -17,6 +17,13 @@ export class LoginHelper extends React.Component {
         }
     }
 
+    componentDidMount(){
+        window.sessionStorage.removeItem("sessionToken");
+        window.sessionStorage.removeItem("photoToken");
+        window.sessionStorage.removeItem("username");
+        window.sessionStorage.removeItem("userType");
+    }
+
     setEmail(email) {
         this.setState({email});
     }

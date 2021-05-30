@@ -22,6 +22,7 @@ import ErrorPage from './components/ErrorPage';
 import {Switch, Route} from 'react-router-dom';
 //import ResultDashboard from './components/Student/ResultDashboard';
 import EvaluateDash from './components/Teacher/EvaluateDash';
+import PhotoAuth from './components/Student/PhotoAuth';
 class App extends Component {
   render() {
     return (
@@ -34,6 +35,7 @@ class App extends Component {
           <Route path="/teacher/evaluatetest" component={EvaluateTest}/>
           <Route path="/teacher/paperlist" component={QuestionDashboard}/>
           <Route path="/teacher/questionpaper" component={ViewPaper}/>
+          <Route path="/student/imageauth" component={PhotoAuth}/>
           <Route path="/student/dashboard" component={Student}/>
           <Route path="/student/test" component={TakeTest}/>
           {/* <Route path="/student/result" component={ResultDashboard}/> */}

@@ -27,17 +27,16 @@ class Student extends React.Component{
     }
 
     componentDidMount() {
-        if(window.sessionStorage.getItem("sessionToken") == null){
+        console.log("SS storage ",window.sessionStorage.getItem("sessionToken"), "PhotoToken: ", window.sessionStorage.getItem("photoToken"));
+        if(window.sessionStorage.getItem("sessionToken") == null || window.sessionStorage.getItem("photoToken") == "null"){
             this.props.history.push('/login');
         }
         else if (window.sessionStorage.getItem("userType") != 'student'){
-                window.sessionStorage.setItem("sessionToken", null);
-                window.sessionStorage.setItem("username", null);
-                window.sessionStorage.setItem("userType", null);
+                window.sessionStorage.removeItem("sessionToken");
+                window.sessionStorage.removeItem("username");
+                window.sessionStorage.removeItem("userType");
                 this.props.history.push('/login');
-            }
-        else
-        {
+        } else {
             let sampleData={
             //username:'ash',
             testList:[{

@@ -7,6 +7,12 @@ export default class Login extends React.Component{
     toAdmin(){
         this.props.history.push('/admin/login');
     }
+    componentDidMount(){
+        window.sessionStorage.removeItem("sessionToken");
+        window.sessionStorage.removeItem("photoToken");
+        window.sessionStorage.removeItem("username");
+        window.sessionStorage.removeItem("userType");
+    }
     
     render(){
         return (
